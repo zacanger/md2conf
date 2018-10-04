@@ -14,8 +14,11 @@ var SPACE = ' '
 
 function Renderer() {}
 
-var rawRenderer = marked.Renderer
+function escape(text) {
+	return text.replace(/\{/g, ' &#123; ').replace(/\}/g, ' &#125; ').replace(/\[/g, '\[').replace(/\]/g, '\]');
+}
 
+var rawRenderer = marked.Renderer
 var langArr = 'actionscript3 bash csharp coldfusion cpp css delphi diff erlang groovy java javafx javascript perl php none powershell python ruby scala sql vb html/xml'.split(/\s+/)
 var langMap = {
 	shell: 'bash',
@@ -37,19 +40,19 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
 		return 'h' + level + '. ' + text + '\n\n'
 	}
 	, strong: function(text) {
-		return '*' + text + '*'
+		return '*' + escape(text) + '*'
 	}
 	, em: function(text) {
-		return '_' + text + '_'
+		return '_' + escape(text) + '_'
 	}
 	, del: function(text) {
-		return '-' + text + '-'
+		return '-' + escape(text) + '-'
 	}
 	, codespan: function(text) {
-		return ' *{{' + text + '}}* '
+		return ' *{{' + escape(text) + '}}* '
 	}
 	, blockquote: function(quote) {
-		return '{quote}' + quote + '{quote}'
+		return '{quote}' + escape(quote) + '{quote}'
 	}
 	, br: function() {
 		return '\n'
@@ -89,7 +92,7 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
 		}).join('\n') + '\n\n'
 	}
 	, listitem: function(body, ordered) {
-		return body + '\n'
+		return escape(body) + '\n'
 	}
 	, image: function(href, title, text) {
 		var arr = [href]
@@ -106,7 +109,7 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
 	}
 	, tablecell: function(content, flags) {
 		var type = flags.header ? '||' : '|'
-		return type + content
+		return type + escape(content)
 	}
 	, code: function(code, lang) {
 		// {code:language=java|borderStyle=solid|theme=RDark|linenumbers=true|collapse=true}
