@@ -1,6 +1,6 @@
 # md2conf
 
-GFM to Confluence.
+Markdown to Confluence markup.
 
 Actively maintained (for as long as I use Confluence at work) fork of
 [markdown2confluence](https://github.com/chunpu/markdown2confluence) with a
@@ -12,4 +12,6 @@ bunch of patches applied.
 
 You can install this globally with `npm i -g md2conf`.
 
-[License (MIT)](./LICENSE.md)
+In Vim, you can rewrite your buffer with `:%! npx md2conf`.
+
+[License](./LICENSE.md)
