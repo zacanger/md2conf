@@ -9,14 +9,16 @@
   },
   "license": "MIT",
   "main": "index.js",
-  "bin": {
-    "md2conf": "bin/markdown2confluence.js"
-  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "bin": "./cli.js",
   "scripts": {
-    "build": "npm run build-html && npm run build-js",
-    "build-html": "jade -p node_modules/jade-gist/. < browser/index.jade > browser/index.html",
-    "readme": "pretty-readme > readme.md",
-    "test": "jest test.js"
+    "preversion": "npm t",
+    "test": "run-s -s test:lint test:tape",
+    "test:lint": "eslint -c .eslintrc.json *.js",
+    "test:tape": "tape test.js"
   },
   "homepage": "https://github.com/zacanger/md2conf",
   "repository": {
@@ -34,12 +36,23 @@
     "md"
   ],
   "dependencies": {
-    "get-stdin": "^5.0.1",
-    "marked": "^0.3.2",
-    "min-qs": "^1.3.0",
-    "min-util": "^2.3.0"
+    "get-stdin": "5.0.1",
+    "marked": "0.3.2",
+    "min-qs": "1.3.0",
+    "min-util": "2.3.0"
   },
   "devDependencies": {
-    "jest": "^18.1.0"
+    "babel-eslint": "10.0.1",
+    "eslint": "5.6.1",
+    "eslint-config-zacanger": "3.4.1",
+    "eslint-plugin-babel": "5.2.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "7.0.1",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-unicorn": "6.0.1",
+    "tape": "4.9.1"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
