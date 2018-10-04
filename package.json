@@ -15,9 +15,8 @@
   ],
   "bin": "./cli.js",
   "scripts": {
-    "_preversion": "npm t",
-    "test": "run-s -s test:lint",
-    "_test": "run-s -s test:lint test:cover",
+    "preversion": "npm t",
+    "test": "run-s -s test:lint test:cover",
     "test:lint": "eslint -c .eslintrc.json *.js",
     "test:tape": "tape test.js",
     "test:cover": "nyc npm run test:tape"
