@@ -1,6 +1,5 @@
 const marked = require('marked')
-const _ = require('min-util')
-const qs = require('min-qs')
+const qs = require('querystring')
 
 // https://roundcorner.atlassian.net/secure/WikiRendererHelpAction.jspa?section=all
 // https://confluence.atlassian.com/display/DOC/Confluence+Wiki+Markup
@@ -28,7 +27,7 @@ for (let i = 0, x; x = langArr[i++];) {
   langMap[x] = x
 }
 
-_.extend(Renderer.prototype, rawRenderer.prototype, {
+Object.assign(Renderer.prototype, rawRenderer.prototype, {
   paragraph: (text) => text + '\n\n',
   html: (html) => html,
   heading: (text, level) => 'h' + level + '. ' + text + '\n\n',
@@ -50,9 +49,9 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
     return '[' + arr.join('|') + ']'
   },
   list: (body, ordered) => {
-    const arr = _.filter(_.trim(body).split('\n'), (line) => line)
+    const arr = body.trim().split('\n').filter((a) => a)
     const type = ordered ? '#' : '*'
-    return '\n' + _.map(arr, (line) => {
+    return '\n' + arr.map((line) => {
       let bullet = type
       if (!/^[*#]+ /.test(line)) {
         // When the line starts with '# ' or '* ', it means that it is
@@ -92,7 +91,7 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
       collapse: false
     }
 
-    const lineCount = _.split(code, '\n').length
+    const lineCount = code.split('\n').length
     if (lineCount > MAX_CODE_LINE) {
       // code is too long
       param.collapse = true

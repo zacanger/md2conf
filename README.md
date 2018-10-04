@@ -19,7 +19,6 @@ In Vim, you can rewrite your buffer with `:%! npx md2conf`.
 
 ## Todo
 
-* Remove dependencies on min-qs and min-util
 * GFM compat
 
 [License](./LICENSE.md)
