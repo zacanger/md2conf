@@ -10,6 +10,7 @@ module.exports = exports = markdown2confluence
 // http://blogs.atlassian.com/2011/11/why-we-removed-wiki-markup-editor-in-confluence-4/
 
 var MAX_CODE_LINE = 20
+var SPACE = ' '
 
 function Renderer() {}
 
@@ -17,8 +18,8 @@ var rawRenderer = marked.Renderer
 
 var langArr = 'actionscript3 bash csharp coldfusion cpp css delphi diff erlang groovy java javafx javascript perl php none powershell python ruby scala sql vb html/xml'.split(/\s+/)
 var langMap = {
-	shell: 'bash', 
-	html: 'html', 
+	shell: 'bash',
+	html: 'html',
 	xml: 'xml'
 }
 for (var i = 0, x; x = langArr[i++];) {
@@ -58,13 +59,21 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
 	}
 	, link: function(href, title, text) {
 		var arr = [href]
+		if (title) {
+			arr.push(title)
+		}
 		if (text) {
 			arr.unshift(text)
 		}
 		return '[' + arr.join('|') + ']'
 	}
 	, list: function(body, ordered) {
-		var arr = _.filter(_.trim(body).split('\n'), function(line) {
+		var type = ordered ? '#' : '*'
+		var parsedBody = _.trim(body)
+			.replace(/([a-z0-9])([\*\#]){1} {1}/ig, '$1\n$2 ')
+			.split('\n')
+
+		var arr = _.filter(parsedBody, function(line) {
 			return line
 		})
 		var type = ordered ? '#' : '*'
@@ -83,7 +92,11 @@ _.extend(Renderer.prototype, rawRenderer.prototype, {
 		return body + '\n'
 	}
 	, image: function(href, title, text) {
-		return '!' + href + '!'
+		var arr = [href]
+		if (text) {
+			arr.push('alt=' + text)
+		}
+		return '!' + arr.join('|') + '!'
 	}
 	, table: function(header, body) {
 		return header + body + '\n'
