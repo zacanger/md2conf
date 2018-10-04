@@ -8,17 +8,38 @@ const escape = (text = '') =>
   // eslint-disable-next-line no-useless-escape
   text.replace(/\{/g, ' &#123; ').replace(/\}/g, ' &#125; ').replace(/\[/g, '\[').replace(/\]/g, '\]')
 
-const langs = 'actionscript3 bash csharp coldfusion cpp css delphi diff erlang groovy java javafx javascript perl php none powershell python ruby scala sql vb html/xml'.split(/\s+/)
-const langMap = {
-  shell: 'bash',
-  html: 'html',
-  xml: 'xml'
-}
+const langMap = [
+  'actionscript3',
+  'bash',
+  'coldfusion',
+  'cpp',
+  'csharp',
+  'css',
+  'delphi',
+  'diff',
+  'erlang',
+  'groovy',
+  'html',
+  'html/xml',
+  'java',
+  'javafx',
+  'javascript',
+  'none',
+  'perl',
+  'php',
+  'powershell',
+  'python',
+  'ruby',
+  'scala',
+  'sql',
+  'vb',
+  'xml'
+].reduce((p, c) => {
+  p[c] = c
+  return p
+}, {})
 
-// eslint-disable-next-line no-cond-assign
-for (let i = 0, x; x = langs[i++];) {
-  langMap[x] = x
-}
+langMap.shell = 'bash'
 
 // eslint-disable-next-line func-style
 function Renderer () {}
