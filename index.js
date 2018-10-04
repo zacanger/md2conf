@@ -1,21 +1,14 @@
 const marked = require('marked')
 const qs = require('querystring')
 
-// https://roundcorner.atlassian.net/secure/WikiRendererHelpAction.jspa?section=all
-// https://confluence.atlassian.com/display/DOC/Confluence+Wiki+Markup
-// http://blogs.atlassian.com/2011/11/why-we-removed-wiki-markup-editor-in-confluence-4/
-
 const MAX_CODE_LINE = 20
-
-// eslint-disable-next-line func-style
-function Renderer () {}
+const rawRenderer = marked.Renderer
 
 const escape = (text = '') =>
   // eslint-disable-next-line no-useless-escape
   text.replace(/\{/g, ' &#123; ').replace(/\}/g, ' &#125; ').replace(/\[/g, '\[').replace(/\]/g, '\]')
 
-const rawRenderer = marked.Renderer
-const langArr = 'actionscript3 bash csharp coldfusion cpp css delphi diff erlang groovy java javafx javascript perl php none powershell python ruby scala sql vb html/xml'.split(/\s+/)
+const langs = 'actionscript3 bash csharp coldfusion cpp css delphi diff erlang groovy java javafx javascript perl php none powershell python ruby scala sql vb html/xml'.split(/\s+/)
 const langMap = {
   shell: 'bash',
   html: 'html',
@@ -23,35 +16,38 @@ const langMap = {
 }
 
 // eslint-disable-next-line no-cond-assign
-for (let i = 0, x; x = langArr[i++];) {
+for (let i = 0, x; x = langs[i++];) {
   langMap[x] = x
 }
 
+// eslint-disable-next-line func-style
+function Renderer () {}
+
 Object.assign(Renderer.prototype, rawRenderer.prototype, {
-  paragraph: (text) => text + '\n\n',
+  paragraph: (text) => `${text}\n\n`,
   html: (html) => html,
-  heading: (text, level) => 'h' + level + '. ' + text + '\n\n',
-  strong: (text) => '*' + escape(text) + '*',
-  em: (text) => '_' + escape(text) + '_',
-  del: (text) => '-' + escape(text) + '-',
-  codespan: (text) => ' *{{' + escape(text) + '}}* ',
-  blockquote: (quote) => '{quote}' + escape(quote) + '{quote}',
+  heading: (text, level) => `h${level}. ${text}\n\n`,
+  strong: (text) => `*${escape(text)}*`,
+  em: (text) => `_${escape(text)}_`,
+  del: (text) => `-${escape(text)}-`,
+  codespan: (text) => ` *{{${escape(text)}}}* `,
+  blockquote: (quote) => `{quote}${escape(quote)}{quote}`,
   br: () => '\n',
   hr: () => '----',
   link: (href, title, text) => {
-    const arr = [ href ]
+    const xs = [ href ]
     if (title) {
-      arr.push(title)
+      xs.push(title)
     }
     if (text) {
-      arr.unshift(text)
+      xs.unshift(text)
     }
-    return '[' + arr.join('|') + ']'
+    return `[${xs.join('|')}]`
   },
   list: (body, ordered) => {
-    const arr = body.trim().split('\n').filter((a) => a)
+    const xs = body.trim().split('\n').filter((a) => a)
     const type = ordered ? '#' : '*'
-    return '\n' + arr.map((line) => {
+    return '\n' + xs.map((line) => {
       let bullet = type
       if (!/^[*#]+ /.test(line)) {
         // When the line starts with '# ' or '* ', it means that it is
@@ -62,20 +58,17 @@ Object.assign(Renderer.prototype, rawRenderer.prototype, {
       return bullet + line
     }).join('\n') + '\n\n'
   },
-  listitem: (body) => escape(body) + '\n',
+  listitem: (body) => `${escape(body)}\n`,
   image: (href, title, text) => {
-    const arr = [ href ]
+    const xs = [ href ]
     if (text) {
-      arr.push('alt=' + text)
+      xs.push(`alt=${text}`)
     }
-    return '!' + arr.join('|') + '!'
+    return `!${xs.join('|')}!`
   },
-  table: (header, body) => header + body + '\n',
-  tablerow: (content) => content + '\n',
-  tablecell: (content, flags) => {
-    const type = flags.header ? '||' : '|'
-    return type + escape(content)
-  },
+  table: (header, body) => `${header}${body}\n`,
+  tablerow: (content) => `${content}\n`,
+  tablecell: (content, flags) => `${(flags.header ? '||' : '|')}${escape(content)}`,
   code: (code, lang) => {
     // {code:language=java|borderStyle=solid|theme=RDark|linenumbers=true|collapse=true}
     if (lang) {
@@ -83,27 +76,22 @@ Object.assign(Renderer.prototype, rawRenderer.prototype, {
     }
     lang = langMap[lang] || 'none'
 
-    let param = {
+    const params = {
       language: lang,
       borderStyle: 'solid',
-      theme: 'RDark', // dark is good
+      theme: 'RDark',
       linenumbers: true,
       collapse: false
     }
 
     const lineCount = code.split('\n').length
-    if (lineCount > MAX_CODE_LINE) {
-      // code is too long
-      param.collapse = true
+    if (lineCount > MAX_CODE_LINE) { // code is too long
+      params.collapse = true
     }
-    param = qs.stringify(param, '|', '=')
-    return '{code:' + param + '}\n' + code + '\n{code}\n\n'
+    const config = qs.stringify(params, '|', '=')
+    return `{code:${config}}\n${code}\n{code}\n\n`
   }
 })
 
-const renderer = new Renderer()
-
-const md2conf = (markdown) =>
-  marked(markdown, { renderer: renderer })
-
-module.exports = md2conf
+module.exports = (s = '') =>
+  marked(s, { renderer: new Renderer() })
