@@ -1,45 +1,45 @@
 {
-  "name": "markdown2confluence",
+  "name": "md2conf",
+  "description": "GFM to Confluence",
   "version": "1.3.0",
-  "description": "convert markdown to confluence markup",
+  "author": {
+    "name": "Zac Anger",
+    "email": "zac@zacanger.com",
+    "url": "http://zacanger.com"
+  },
+  "license": "MIT",
   "main": "index.js",
+  "bin": {
+    "md2conf": "bin/markdown2confluence.js"
+  },
   "scripts": {
-    "test": "jest test.js",
     "build": "npm run build-html && npm run build-js",
     "build-html": "jade -p node_modules/jade-gist/. < browser/index.jade > browser/index.html",
-    "build-js": "webpack browser/app.js --output-filename=browser/bundle.js",
-    "readme": "pretty-readme > readme.md"
+    "readme": "pretty-readme > readme.md",
+    "test": "jest test.js"
   },
-  "author": "ft",
-  "license": "ISC",
+  "homepage": "https://github.com/zacanger/md2conf",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacanger/md2conf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zacanger/md2conf/issues"
+  },
+  "keywords": [
+    "confluence",
+    "convert",
+    "markdown",
+    "markup",
+    "md"
+  ],
   "dependencies": {
     "get-stdin": "^5.0.1",
-    "jade": "^1.11.0",
-    "jade-gist": "^1.0.3",
     "marked": "^0.3.2",
     "min-qs": "^1.3.0",
-    "min-util": "^2.3.0",
-    "raw-loader": "^0.5.1",
-    "webpack": "^1.14.0"
-  },
-  "bin": {
-    "markdown2confluence": "bin/markdown2confluence.js"
+    "min-util": "^2.3.0"
   },
   "devDependencies": {
     "jest": "^18.1.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chunpu/markdown2confluence.git"
-  },
-  "keywords": [
-    "markdown",
-    "confluence",
-    "markup",
-    "convert"
-  ],
-  "bugs": {
-    "url": "https://github.com/chunpu/markdown2confluence/issues"
-  },
-  "homepage": "https://github.com/chunpu/markdown2confluence"
+  }
 }
