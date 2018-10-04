@@ -3,7 +3,8 @@
 GFM to Confluence.
 
 Actively maintained (for as long as I use Confluence at work) fork of
-[markdown2confluence](https://github.com/chunpu/markdown2confluence).
+[markdown2confluence](https://github.com/chunpu/markdown2confluence) with a
+bunch of patches applied.
 
 ## Usage
 
