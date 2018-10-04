@@ -10,9 +10,10 @@ bunch of patches applied.
 
 ## Usage
 
-`cat foo.md | npx md2conf > foo.conf`, or `md2conf foo.md > foo.conf`
+`npx md2conf < foo.md > foo.conf`, or `npx md2conf foo.md > foo.conf`.
 
-You can install this globally with `npm i -g md2conf`.
+You can install this globally and avoid the extra call to `npx` with `npm i -g
+md2conf`.
 
 In Vim, you can rewrite your buffer with `:%! npx md2conf`.
 
