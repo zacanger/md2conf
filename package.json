@@ -1,7 +1,7 @@
 {
   "name": "md2conf",
   "description": "Markdown to Confluence markup.",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "author": {
     "name": "Zac Anger",
     "email": "zac@zacanger.com",
