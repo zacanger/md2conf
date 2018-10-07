@@ -17,8 +17,4 @@ md2conf`.
 
 In Vim, you can rewrite your buffer with `:%! npx md2conf`.
 
-## Todo
-
-* GFM compat
-
 [License](./LICENSE.md)
