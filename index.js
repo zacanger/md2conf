@@ -32,8 +32,10 @@ const langMap = [
   'ruby',
   'scala',
   'sql',
+  'text',
   'vb',
-  'xml'
+  'xml',
+  'yaml'
 ].reduce((p, c) => {
   p[c] = c
   return p
@@ -97,18 +99,15 @@ Object.assign(Renderer.prototype, rawRenderer.prototype, {
     }
     lang = langMap[lang] || 'none'
 
+    const lineCount = code.split('\n').length
     const params = {
       language: lang,
       borderStyle: 'solid',
       theme: 'RDark',
       linenumbers: true,
-      collapse: false
+      collapse: lineCount > MAX_CODE_LINE
     }
 
-    const lineCount = code.split('\n').length
-    if (lineCount > MAX_CODE_LINE) { // code is too long
-      params.collapse = true
-    }
     const config = qs.stringify(params, '|', '=')
     return `{code:${config}}\n${code}\n{code}\n\n`
   }
