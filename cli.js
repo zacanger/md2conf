@@ -9,6 +9,9 @@ const filename = process.argv[2]
 
 if (filename != null) {
   fs.readFile(path.resolve(process.cwd(), filename), (err, buf) => {
+    if (err) {
+      throw err
+    }
     console.log(md2conf(buf + ''))
   })
 } else {
