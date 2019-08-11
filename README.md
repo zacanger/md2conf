@@ -6,7 +6,7 @@ Actively maintained (for as long as I use Confluence at work) fork of
 [markdown2confluence](https://github.com/chunpu/markdown2confluence) with a
 bunch of patches applied.
 
-[![CircleCI](https://circleci.com/gh/zacanger/md2conf.svg?style=svg)](https://circleci.com/gh/zacanger/md2conf) [![codecov](https://codecov.io/gh/zacanger/md2conf/branch/master/graph/badge.svg)](https://codecov.io/gh/zacanger/md2conf) [![Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/zacanger) [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U2110VB)
+[![CircleCI](https://circleci.com/gh/zacanger/md2conf.svg?style=svg)](https://circleci.com/gh/zacanger/md2conf) [![codecov](https://codecov.io/gh/zacanger/md2conf/branch/master/graph/badge.svg)](https://codecov.io/gh/zacanger/md2conf) [![Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/zacanger) [![ko-fi](https://img.shields.io/badge/donate-KoFi-yellow.svg)](https://ko-fi.com/U7U2110VB)
 
 ## Usage
 
