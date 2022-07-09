@@ -1,4 +1,4 @@
-const marked = require('marked')
+const marked = require('marked').marked
 const qs = require('querystring')
 
 const MAX_CODE_LINE = 20
@@ -58,7 +58,7 @@ Object.assign(Renderer.prototype, rawRenderer.prototype, {
   br: () => '\n',
   hr: () => '----',
   link: (href, title, text) => {
-    const xs = [ href ]
+    const xs = [href]
     if (title) {
       xs.push(title)
     }
@@ -83,7 +83,7 @@ Object.assign(Renderer.prototype, rawRenderer.prototype, {
   },
   listitem: (body) => `${escape(body)}\n`,
   image: (href, title, text) => {
-    const xs = [ href ]
+    const xs = [href]
     if (text) {
       xs.push(`alt=${text}`)
     }
